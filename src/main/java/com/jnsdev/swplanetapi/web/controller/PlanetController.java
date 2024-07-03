@@ -1,4 +1,4 @@
-package com.jnsdev.swplanetapi.controller;
+package com.jnsdev.swplanetapi.web.controller;
 
 import com.jnsdev.swplanetapi.domain.Planet;
 import com.jnsdev.swplanetapi.domain.PlanetService;
