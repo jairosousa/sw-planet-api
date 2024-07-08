@@ -1,5 +1,4 @@
-# [Testes automatizados na prática com Spring Boot](https://www.udemy.com/course/testes-automatizados-na-pratica-com-spring-boot/?couponCode=ST16MT70224)
-
+# [Testes automatizados na prática com Spring Boot](https://www.udemy.com/course/testes-automatizados-na-pratica-com-spring-boot/?couponCode=ST16MT70224) [![Build Maven](https://github.com/jairosousa/sw-planet-api/actions/workflows/maven.yml/badge.svg)](https://github.com/jairosousa/sw-planet-api/actions/workflows/maven.yml)
 # Requisitos
 * Experiência com desenvolvimento Spring Boot.
 * Conhecimentos básicos sobre Serviços Web, Maven e Banco de dados relacional.

@@ -8,4 +8,5 @@ import com.jnsdev.swplanetapi.domain.Planet;
  */
 public class PlanetsConstants {
     public static final Planet PLANET = new Planet("name", "climate", "terrain");
+    public static final Planet INVALID_PLANET = new Planet(" ", " ", " ");
 }
