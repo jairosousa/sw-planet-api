@@ -2,6 +2,8 @@ package com.jnsdev.swplanetapi.domain;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @Autor Jairo Nascimento
  * @Created 13/06/2024 - 09:31
@@ -17,6 +19,10 @@ public class PlanetService {
 
     public Planet create(Planet planet) {
         return planetRepository.save(planet);
+    }
+
+    public Optional<Planet> get(Long id) {
+        return planetRepository.findById(id);
     }
 }
 
