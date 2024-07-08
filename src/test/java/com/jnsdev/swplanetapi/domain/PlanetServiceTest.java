@@ -12,6 +12,7 @@ import static com.jnsdev.swplanetapi.common.PlanetsConstants.INVALID_PLANET;
 import static com.jnsdev.swplanetapi.common.PlanetsConstants.PLANET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 /**
@@ -70,6 +71,29 @@ class PlanetServiceTest {
 
         // ACT
         Optional<Planet> sut = planetService.get(id);
+
+        // Asserts
+        assertThat(sut).isEmpty();
+    }
+
+    @Test
+    void getPlanet_ByExistingName_ReturnPlanet() {
+        when(planetRepository.findByName(anyString())).thenReturn(Optional.of(PLANET));
+
+        // ACT
+        Optional<Planet> sut = planetService.getByName("name");
+
+        // Asserts
+        assertThat(sut).isNotEmpty();
+        assertThat(sut).contains(PLANET);
+    }
+
+    @Test
+    void getPlanet_ByUnexistingName_ReturnEmpty() {
+        when(planetRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+        // ACT
+        Optional<Planet> sut = planetService.getByName("name");
 
         // Asserts
         assertThat(sut).isEmpty();

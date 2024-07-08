@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/planets")
 public class PlanetController {
 
-    @Autowired
-    private PlanetService planetService;
+    private final PlanetService planetService;
+
+    public PlanetController(PlanetService planetService) {
+        this.planetService = planetService;
+    }
 
     @PostMapping
     public ResponseEntity<Planet> create(@RequestBody Planet planet) {
@@ -28,6 +31,12 @@ public class PlanetController {
     @GetMapping("/{id}")
     public ResponseEntity<Planet> get(@PathVariable("id") Long id) {
         return planetService.get(id).map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Planet> getByName(@PathVariable("name") String name) {
+        return planetService.getByName(name).map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
