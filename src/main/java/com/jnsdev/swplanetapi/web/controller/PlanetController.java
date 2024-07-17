@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Autor Jairo Nascimento
  * @Created 13/06/2024 - 09:28
@@ -38,5 +40,12 @@ public class PlanetController {
     public ResponseEntity<Planet> getByName(@PathVariable("name") String name) {
         return planetService.getByName(name).map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Planet>> list(@RequestParam(required = false) String climate,
+                                             @RequestParam(required = false) String terrain) {
+        List<Planet> planets = planetService.list(climate, terrain);
+        return ResponseEntity.ok(planets);
     }
 }
