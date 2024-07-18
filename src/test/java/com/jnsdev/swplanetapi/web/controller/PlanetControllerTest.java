@@ -3,6 +3,7 @@ package com.jnsdev.swplanetapi.web.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jnsdev.swplanetapi.domain.Planet;
 import com.jnsdev.swplanetapi.domain.PlanetService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -10,9 +11,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-import static com.jnsdev.swplanetapi.common.PlanetsConstants.PLANET;
+import static com.jnsdev.swplanetapi.common.PlanetsConstants.*;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -108,5 +112,31 @@ class PlanetControllerTest {
         mockMvc
                 .perform(get("/planets/name/" + PLANET.getName()))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void listPlanets_ReturnsFilteredPlanets() throws Exception {
+        when(planetService.list(null, null)).thenReturn(PLANETS);
+        when(planetService.list(TATOOINE.getClimate(), TATOOINE.getTerrain())).thenReturn(List.of(TATOOINE));
+
+        mockMvc
+                .perform(get("/planets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)));
+        mockMvc
+                .perform(get("/planets?" + String.format("climate=%s&terrain=%s", TATOOINE.getClimate(), TATOOINE.getTerrain())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0]").value(TATOOINE));
+
+    }
+
+    @Test
+    void listPlanets_ReturnsNoPlanets() throws Exception {
+        when(planetService.list(null, null)).thenReturn(Collections.emptyList());
+        mockMvc
+                .perform(get("/planets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 }

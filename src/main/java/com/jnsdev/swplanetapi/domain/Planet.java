@@ -40,6 +40,13 @@ public class Planet {
         this.terrain = terrain;
     }
 
+    public Planet(Long id, String name, String climate, String terrain) {
+        this.id = id;
+        this.name = name;
+        this.climate = climate;
+        this.terrain = terrain;
+    }
+
     public Long getId() {
         return id;
     }
@@ -79,11 +86,6 @@ public class Planet {
 
     @Override
     public String toString() {
-        return "Planet{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", climate='" + climate + '\'' +
-                ", terrain='" + terrain + '\'' +
-                '}';
+        return "Planet [climate=" + climate + ", id=" + id + ", name=" + name + ", terrain=" + terrain + "]";
     }
 }
