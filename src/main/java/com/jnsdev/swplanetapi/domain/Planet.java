@@ -1,6 +1,7 @@
 package com.jnsdev.swplanetapi.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
@@ -14,8 +15,15 @@ public class Planet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty
+    @Column(nullable = false)
     private String name;
+    @NotEmpty
+    @Column(nullable = false)
     private String climate;
+    @NotEmpty
+    @Column(nullable = false)
     private String terrain;
 
     public Planet() {
@@ -26,6 +34,7 @@ public class Planet {
         this.climate = climate;
         this.terrain = terrain;
     }
+
     public Planet(String climate, String terrain) {
         this.climate = climate;
         this.terrain = terrain;
