@@ -17,10 +17,14 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Optional;
+
 import static com.jnsdev.swplanetapi.common.PlanetsConstants.PLANET;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -82,4 +86,19 @@ class PlanetControllerTest {
                 .andExpect(status().isConflict());
     }
 
+    @Test
+    void getPlanet_ByExistingId_ReturnsPlanet() throws Exception {
+        when(planetService.get(1L)).thenReturn(Optional.of(PLANET));
+        mockMvc
+                .perform(get("/planets/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(PLANET));
+    }
+
+    @Test
+    void getPlanet_ByUnexistingId_ReturnsNotFound() throws Exception {
+        mockMvc
+                .perform(get("/planets/1"))
+                .andExpect(status().isNotFound());
+    }
 }
