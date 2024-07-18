@@ -3,6 +3,7 @@ package com.jnsdev.swplanetapi.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jnsdev.swplanetapi.common.PlanetsConstants;
+import com.jnsdev.swplanetapi.domain.Planet;
 import com.jnsdev.swplanetapi.domain.PlanetService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -44,11 +45,29 @@ class PlanetControllerTest {
 
         when(planetService.create(PLANET)).thenReturn(PLANET);
 
-        mockMvc.perform(post("/planets")
+        mockMvc
+                .perform(post("/planets")
                         .content(objectMapper.writeValueAsString(PLANET))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$").value(PLANET));
+    }
+
+    @Test
+    void createPlanet_withInvalidData_ReturnsBadRequest() throws Exception {
+        Planet emptyPlanet = new Planet();
+        Planet invalidPlanet = new Planet("", "", "");
+
+        mockMvc
+                .perform(post("/planets")
+                        .content(objectMapper.writeValueAsString(emptyPlanet))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isUnprocessableEntity());
+        mockMvc
+                .perform(post("/planets")
+                        .content(objectMapper.writeValueAsString(invalidPlanet))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isUnprocessableEntity());
     }
 
 }
