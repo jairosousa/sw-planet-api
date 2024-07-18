@@ -94,7 +94,7 @@ class PlanetServiceTest {
     }
 
     @Test
-    void getPlanet_ByUnexitingName_ReturnEmpty() {
+    void getPlanet_ByUnexistingName_ReturnEmpty() {
         when(planetRepository.findByName(anyString())).thenReturn(Optional.empty());
 
         // ACT
