@@ -26,9 +26,9 @@ jobs:
           # The MySQL docker container requires these environment variables to be set
           # so we can create and migrate the test database.
           # See: https://hub.docker.com/_/mysql
-          MYSQL_DATABASE: starwars
-          MYSQL_USERNAME: root
-          MYSQL_PASSWORD: root
+          DB: starwars
+          DB_USER: root
+          DB_PASSWORD: root
         ports:
           # Opens port 3306 on service container and host
           # https://docs.github.com/en/actions/using-containerized-services/about-service-containers
