@@ -75,3 +75,20 @@ mysql> use nome banco;
 mysql> show tables;
 ```
 
+# Teste de Integração
+Executar todos os teste unitários + integração
+```shell
+./mvnw clean verify -DskipITs=true
+```
+
+Executar somente de integração
+```shell
+./mvnw clean verify -Dsurefire.skip=true
+```
+
+Executar só unitarios
+```shell
+./mvnw clean verify -DskipITs=true
+```
+
+# Jacoco
