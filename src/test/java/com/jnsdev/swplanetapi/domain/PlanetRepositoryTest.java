@@ -2,15 +2,18 @@ package com.jnsdev.swplanetapi.domain;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static com.jnsdev.swplanetapi.common.PlanetsConstants.PLANET;
 import static com.jnsdev.swplanetapi.common.PlanetsConstants.TATOOINE;
@@ -50,13 +53,25 @@ class PlanetRepositoryTest {
         assertThat(sut.getTerrain()).isEqualTo(PLANET.getTerrain());
     }
 
-    @Test
-    void createPlanet_WithInvalidData_ThrowsException() {
-        Planet emptyPlanet = new Planet();
-        Planet invalidPlanet = new Planet("", "", "");
+    @ParameterizedTest
+    @MethodSource("provideInvalidPlanets")
+    void createPlanet_WithInvalidData_ThrowsException(Planet planet) {
+        assertThatThrownBy(() -> planetRepository.save(planet)).isInstanceOf(RuntimeException.class);
+    }
 
-        assertThatThrownBy(() -> planetRepository.save(emptyPlanet)).isInstanceOf(RuntimeException.class);
-        assertThatThrownBy(() -> planetRepository.save(invalidPlanet)).isInstanceOf(RuntimeException.class);
+    static Stream<Arguments> provideInvalidPlanets() {
+        return Stream.of(
+                Arguments.of(new Planet("", "climate", "terrain")), // Nome vazio
+                Arguments.of(new Planet("name", "", "terrain")), // Clima vazio
+                Arguments.of(new Planet("name", "climate", "")), // Terreno vazio
+                Arguments.of(new Planet(null, "climate", "terrain")), // Nome nulo
+                Arguments.of(new Planet("name", null, "terrain")), // Clima nulo
+                Arguments.of(new Planet("name", "climate", null)), // Terreno nulo
+                Arguments.of(new Planet("name", "", "")),
+                Arguments.of(new Planet("", "climate", "")),
+                Arguments.of(new Planet("", "", "terrain")),
+                Arguments.of(new Planet("", "", ""))
+        );
     }
 
     @Test
