@@ -122,3 +122,8 @@ Executar só unitarios
 ```shell
 ./mvnw clean test jacoco:report
 ```
+
+# Pitest
+```shell
+./mvnw test-compile org.pitest:pitest-maven:mutationCoverage
+```
