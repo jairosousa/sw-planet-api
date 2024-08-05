@@ -75,15 +75,38 @@ mysql> use nome banco;
 mysql> show tables;
 ```
 
-# Teste de Integração
-Executar todos os teste unitários + integração
+# Teste Unitários e Integração
+Executar somente os teste unitários
+
 ```shell
-./mvnw clean verify -DskipITs=true
+./mvnw clean test
 ```
 
-Executar somente de integração
+Executar todos os teste unitários + integração
+| configurar o plugin no maven maven-surefire-plugin
+```xml
+            <!--Plugin teste-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>${surefire.skip}</skip>
+                </configuration>
+            </plugin>
+```
+Depois execute o comando
 ```shell
-./mvnw clean verify -Dsurefire.skip=true
+./mvnw clean verify
+```
+
+Executar somente os testes integrados
+```shell
+./mvnw clean verify -DskipSurefire=true
+```
+
+Executar somente de unidades
+```shell
+./mvnw clean verify -DskipITs=true
 ```
 
 Executar só unitarios
@@ -91,4 +114,11 @@ Executar só unitarios
 ./mvnw clean verify -DskipITs=true
 ```
 
+```shell
+./mvnw clean test
+```
+
 # Jacoco
+```shell
+./mvnw clean test jacoco:report
+```

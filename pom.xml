@@ -71,7 +71,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skip>${surefire.skip}</skip>
+                    <skip>${skipSurefire}</skip>
                 </configuration>
             </plugin>
             <!--Teste integração -->
@@ -87,6 +87,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 
