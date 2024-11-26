@@ -3,6 +3,7 @@
 ![Java](https://img.shields.io/badge/Java-21-green?style=plastic&logo=java)
 ![Spring Boot](https://img.shields.io/badge/SpringBoot-3.2.2-green?style=plastic&logo=spring)
 ![Maven](https://img.shields.io/badge/Maven-3.9.2-green?style=plastic)
+![Spring](https://img.shields.io/badge/Spring%20Boot-3.2.2-6DB33F.svg?style=plastic&logo=Spring-Boot&logoColor=white)
 # Requisitos
 * Experiência com desenvolvimento Spring Boot.
 * Conhecimentos básicos sobre Serviços Web, Maven e Banco de dados relacional.
